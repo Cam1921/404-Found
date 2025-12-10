@@ -1,3 +1,4 @@
+//  src/controllers/catalogosController.js
 const { pool } = require("../config/db")
 
 // ===== CATEGORÍAS POR EDAD =====

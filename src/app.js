@@ -1,26 +1,23 @@
-const express = require("express")
-require("dotenv").config()
-const { testConnection } = require("./config/db")
+const express = require("express");
+require("dotenv").config();
 
-// Importar rutas de catalogos
-const catalogosRoutes = require("./routes/catalogos")
+// Rutas
+const authRoutes = require("./routes/auth/auth"); // <--- Nueva ruta
+const catalogosRoutes = require("./routes/catalogos");
 
-const app = express()
-const PORT = process.env.PORT || 3000
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Middleware para parsear JSON
-app.use(express.json())
+app.use(express.json());
 
-// Ruta de prueba
-app.get("/", (req, res) => {
-  res.json({ mensaje: "API de Cuestionarios funcionando" })
-})
+// 1. Rutas Públicas (Login y Registro)
+app.use("/api/auth", authRoutes);
 
-// Usar rutas de catalogos
-app.use("/api", catalogosRoutes)
+// 2. Rutas Protegidas (Catalogos)
+// Aquí decimos: "Para usar /api, primero verifica el token"
+const { verifyToken } = require("./middlewares/auth/authMiddleware");
+app.use("/api", verifyToken, catalogosRoutes); 
 
-// Iniciar servidor
-app.listen(PORT, async () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`)
-  await testConnection()
-})
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});

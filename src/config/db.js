@@ -1,21 +1,19 @@
+// src/config/db.js
 const { Pool } = require('pg');
 require('dotenv').config();
 
+// Usamos la misma variable que usa Prisma para no duplicar configuración
 const pool = new Pool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE
+  connectionString: process.env.DATABASE_URL,
 });
 
 const testConnection = async () => {
   try {
     const client = await pool.connect();
-    console.log('Conexión exitosa a PostgreSQL');
+    console.log('✅ Conexión exitosa a PostgreSQL (Modo Pool)');
     client.release();
   } catch (error) {
-    console.error('Error al conectar a PostgreSQL:', error.message);
+    console.error('❌ Error al conectar a PostgreSQL:', error.message);
   }
 };
 

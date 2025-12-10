@@ -1,0 +1,84 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// --- TUS MODELOS ---
+
+// Tabla: categorias_edad
+model CategoriaEdad {
+  id          Int      @id @default(autoincrement())
+  rango       String   @unique @db.VarChar(50)
+  descripcion String?  @db.Text
+  creadoEn    DateTime @default(now()) @map("creado_en")
+
+  @@map("categorias_edad")
+}
+
+// Tabla: dificultades
+model Dificultad {
+  id          Int      @id @default(autoincrement())
+  nivel       String   @unique @db.VarChar(50)
+  descripcion String?  @db.Text
+  creadoEn    DateTime @default(now()) @map("creado_en")
+
+  @@map("dificultades")
+}
+
+// Tabla: areas
+model Area {
+  id          Int       @id @default(autoincrement())
+  nombre      String    @unique @db.VarChar(100)
+  descripcion String?   @db.Text
+  creadoEn    DateTime  @default(now()) @map("creado_en")
+  
+  // Relación con Subareas
+  subareas    Subarea[]
+
+  @@map("areas")
+}
+
+// Tabla: subareas
+model Subarea {
+  id          Int      @id @default(autoincrement())
+  nombre      String   @db.VarChar(100)
+  explicacion String   @db.Text
+  creadoEn    DateTime @default(now()) @map("creado_en")
+  
+  // Clave foránea (Foreign Key)
+  areaId      Int      @map("area_id")
+  area        Area     @relation(fields: [areaId], references: [id], onDelete: Cascade)
+
+  // Índice único compuesto
+  @@unique([nombre, areaId])
+  @@index([areaId])
+  @@map("subareas")
+}
+
+// ... (Tus otros modelos Categoria, Area, etc. siguen arriba)
+
+// Tabla de Usuarios para el sistema
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  password  String   // Aquí guardaremos el hash encriptado, no la contraseña real
+  rol       Role     @default(GESTIONADOR)
+  creadoEn  DateTime @default(now()) @map("creado_en")
+
+  @@map("usuarios")
+}
+
+// Definimos los roles permitidos (Enum)
+enum Role {
+  ADMIN
+  EDITOR
+  GESTIONADOR
+}
