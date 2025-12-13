@@ -1,5 +1,5 @@
 // src/controllers/auth/authController.js
-const { PrismaClient } = require('../../generated/prisma'); // OJO: Tu ruta configurada
+const { PrismaClient } = require("@prisma/client"); // OJO: Tu ruta configurada
 const prisma = new PrismaClient();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
