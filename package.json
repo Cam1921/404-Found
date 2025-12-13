@@ -1,22 +1,32 @@
 {
   "name": "cuestionario",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "cert": "node generar_cert.js",
+    "prisma:migrate": "npx prisma migrate dev",
+    "prisma:studio": "npx prisma studio"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "install": "^0.13.0",
-    "pg": "^8.16.3"
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.16.3",
+    "spdy": "^4.0.2"
   },
   "devDependencies": {
-    "nodemon": "^3.1.11"
+    "nodemon": "^3.1.11",
+    "prisma": "^5.22.0",
+    "selfsigned": "^2.4.1"
+  },
+  "prisma": {
+  "seed": "node prisma/seed.js"  
   }
 }
