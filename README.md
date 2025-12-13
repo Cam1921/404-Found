@@ -43,6 +43,12 @@ Debe crear un archivo llamado ".env" en la raíz del proyecto.
    ```bash
    JWT_SECRET="escriba_aqui_una_frase_secreta_y_larga"
    ```
+3. Para mas detalle
+   - Abrir postgres y crear una base de datos (mejor si coloca como nombre cuestionario)
+   - DATABASE -> sera el nombre de la base de datos
+   - PASSWORD -> la contraseña utilizada para esa base de datos
+   - PORT -> el puerto que esta utilizando
+
 ## PASO 3: GENERACIÓN DE CERTIFICADOS SSL (HTTPS / HTTP2)
 
 Para habilitar HTTP/2, el servidor requiere certificados SSL. Como es un 
@@ -64,7 +70,10 @@ prueba (Categorías, Dificultades, Usuario Admin inicial).
    ```bash
    npx prisma migrate dev --name init
    ```
-
+2. Ejecute el siguiente comando:
+    ```bash
+    npx prisma generate
+    ``` 
 3. Ejecute el script de poblado (Seed) para insertar datos iniciales:
    ```bash
    npx prisma db seed
@@ -75,6 +84,10 @@ prueba (Categorías, Dificultades, Usuario Admin inicial).
 ## PASO 5: EJECUTAR EL SERVIDOR
 
 1. Inicie el servidor:
+   ```bash
+   node src/app.js
+    ```
+   o
    ```bash
    npm start
    ```
